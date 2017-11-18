@@ -4,6 +4,8 @@ import com.infoshareacademy.searchengine.searchengine.dao.UsersRepositoryDao;
 import com.infoshareacademy.searchengine.searchengine.dao.UsersRepositoryDaoBean;
 import com.infoshareacademy.searchengine.searchengine.domain.User;
 
+import javax.ejb.EJB;
+import javax.inject.Inject;
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
@@ -12,8 +14,13 @@ import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
 import java.io.PrintWriter;
 
+
+
     @WebServlet("/find-user-by-id")
     public class FindUserByIdServlet extends HttpServlet {
+
+        @Inject
+        private UsersRepositoryDao bean;
 
         @Override
         protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
@@ -24,7 +31,7 @@ import java.io.PrintWriter;
 
             PrintWriter writer = resp.getWriter();
             User user = new User();
-            UsersRepositoryDao bean = new UsersRepositoryDaoBean();
+//            UsersRepositoryDao bean = new UsersRepositoryDaoBean();
 
             String id = req.getParameter("id");
 
