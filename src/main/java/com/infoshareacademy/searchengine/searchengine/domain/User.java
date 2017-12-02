@@ -6,6 +6,7 @@ public class User {
     private String surname;
     private String login;
     private int age;
+    private Gender gender;
 
     public int getId() {
         return id;
@@ -45,5 +46,14 @@ public class User {
 
     public void setAge(int age) {
         this.age = age;
+    }
+
+    public void setGender(Gender gender) {
+        this.gender = gender;
+    }
+
+    public Gender getGender() {
+        return gender;
+
     }
 }

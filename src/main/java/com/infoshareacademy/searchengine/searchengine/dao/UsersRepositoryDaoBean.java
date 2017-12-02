@@ -5,9 +5,10 @@ import com.infoshareacademy.searchengine.searchengine.repository.UsersRepository
 
 import javax.ejb.Stateless;
 import java.util.List;
+import java.util.stream.Collectors;
 
 @Stateless
-public class UsersRepositoryDaoBean implements UsersRepositoryDao{
+public class UsersRepositoryDaoBean implements UsersRepositoryDao, UsersRepositoryDaoRemote{
 
 
     @Override
@@ -45,5 +46,12 @@ public class UsersRepositoryDaoBean implements UsersRepositoryDao{
     @Override
     public List<User> getUsersList() {
         return UsersRepository.getRepository();
+    }
+
+    @Override
+    public List<String> getUsersNames() {
+        return getUsersList().stream()
+                .map(user -> user.getName())
+                .collect(Collectors.toList());
     }
 }

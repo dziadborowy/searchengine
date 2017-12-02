@@ -1,7 +1,10 @@
 package com.infoshareacademy.searchengine.searchengine.servlets;
 
+import com.infoshareacademy.searchengine.searchengine.cdibean.MaxPulse;
+import com.infoshareacademy.searchengine.searchengine.cdibean.MaxPulseBean;
 import com.infoshareacademy.searchengine.searchengine.dao.UsersRepositoryDao;
 import com.infoshareacademy.searchengine.searchengine.dao.UsersRepositoryDaoBean;
+import com.infoshareacademy.searchengine.searchengine.domain.Gender;
 import com.infoshareacademy.searchengine.searchengine.domain.User;
 
 import javax.ejb.EJB;
@@ -21,6 +24,8 @@ import java.io.PrintWriter;
 
         @Inject
         private UsersRepositoryDao bean;
+        @Inject
+        private MaxPulse maxPulse;
 
         @Override
         protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
@@ -30,10 +35,12 @@ import java.io.PrintWriter;
             }
 
             PrintWriter writer = resp.getWriter();
-            User user = new User();
-//            UsersRepositoryDao bean = new UsersRepositoryDaoBean();
 
             String id = req.getParameter("id");
+            User user = bean.getUserById(Integer.parseInt(id));
+
+//            UsersRepositoryDao bean = new UsersRepositoryDaoBean();
+
 
             if (bean.getUserById(Integer.parseInt(id)) == null) {
                 resp.setStatus(HttpServletResponse.SC_NOT_FOUND);
@@ -44,7 +51,15 @@ import java.io.PrintWriter;
                 writer.println("<!DOCTYPE html>");
                 writer.println("<html>");
                 writer.println("<body>");
-                writer.println("Hello " + bean.getUserById(Integer.parseInt(id)).getSurname() + "!<br />");
+                writer.println("Hello " + user.getSurname() + "!<br />");
+
+                if (user.getGender() == Gender.MAN) {
+                    writer.println(maxPulse.getPulseMan(user.getAge()));
+                }
+                else if (user.getGender() == Gender.WOMAN) {
+                    writer.println(maxPulse.getPulseWoman(user.getAge()));
+                }
+
                 writer.println("</body>");
                 writer.println("</html>");
             }
